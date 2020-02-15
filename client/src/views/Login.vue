@@ -9,6 +9,7 @@
             </v-toolbar>
             <v-card-text>
               <v-form>
+                <!-- ERROR MESSAGE HERE <p></p> -->
                 <v-text-field
                   label="Email"
                   prepend-icon="person"
