@@ -1,21 +1,30 @@
 <template>
   <v-app>
-    <Login/>
+    <Navbar v-if="loggedIn"/>
+    <router-view/>
   </v-app>
 </template>
 
 <script>
-import Login from './views/Login';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+//
+import Navbar from '@/components/Navbar.vue'
 
 export default {
   name: 'App',
-
   components: {
-    Login,
+    Navbar,
   },
-
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      loggedIn: false
+    }
+  },
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      this.loggedIn = !!user;
+    })
+  }
 };
 </script>
