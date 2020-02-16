@@ -1,5 +1,22 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-content>
+    
+  </v-content>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+
+    }
+  },
+  created() {
+    /* TODO: Load data from 'this.$route.params.id' */
+  }
+}
+</script>
+
+<style>
+
+</style>
