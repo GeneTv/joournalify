@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import Dashboard from '@/views/Dashboard.vue'
 import Details from '@/views/Details.vue'
+import Error404 from '@/views/Error404.vue'
 import Login from '@/views/Login.vue'
 
 import * as firebase from 'firebase/app';
@@ -22,6 +24,11 @@ const routes = [
     path: '/details/:id',
     name: 'details',
     component: Details,
+    meta: { accessRestricted: true }
+  },{
+    path: '*',
+    name: 'error404',
+    component: Error404,
     meta: { accessRestricted: true }
   }
 ]

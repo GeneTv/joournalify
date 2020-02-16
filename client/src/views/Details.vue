@@ -1,6 +1,6 @@
 <template>
-  <v-content>
-    
+  <v-content class="mx-4 mb-4">
+    <h1 class="subheading">Test</h1>
   </v-content>
 </template>
 
