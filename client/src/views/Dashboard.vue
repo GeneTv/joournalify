@@ -13,7 +13,7 @@
       </v-layout>
 
       <h1 class="mt-12 text-center grey--text" v-if="entries.length == 0">No entries found</h1>
-      <v-card text class="mb-5 elevation-2" v-for="entry in entries" :key="entry.id" router :to="`/details/${entry.id}`">
+      <v-card text elevation-2 class="mb-5" v-for="entry in entries" :key="entry.id" router :to="`/details/${entry.id}`">
         <v-layout row wrap :class="`pa-3 entry`">
           <v-flex xs12 md6>
             <div class="caption grey--text">Date</div>
@@ -87,5 +87,8 @@ export default {
 <style scoped>
 .entry {
   background: #fff;
+}
+.v-card {
+  margin-right: 0px;
 }
 </style>
