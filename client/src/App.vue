@@ -28,3 +28,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.theme--light.v-application {
+  background: #F5F5F5 !important;
+}
+</style>
