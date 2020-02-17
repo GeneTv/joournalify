@@ -6,7 +6,7 @@
     <v-container class="my-5">
 
       <v-layout row class="mb-3">
-        <v-btn text color="success text--grey">
+        <v-btn text color="success text--grey" :loading="states.loadingCreate" v-on:click="createJournal()">
           <v-icon left>add_to_photos</v-icon>
           <span class="caption">Add</span>
         </v-btn>
@@ -37,56 +37,37 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      journals: []
-      /*journals: [
-
-        {
-          id: "Yasvbkw7rMZmtByuB68o",
-          date: 1581883304354,
-          tasks: [
-            "HTML lernen",
-            "CSS lernen"
-          ],
-          completed: [
-            "",
-            ""
-          ],
-          reflection: "Testtext",
-          notes: "",
-          feedback: [
-            { author: "Michael Kellenberger", text: "Hey! Super Sache! Gute Note kommt." }
-          ]
-        },{
-          id: "Yasvbkw7rMZmtByuB689",
-          date: 1581583304354,
-          tasks: [
-            "HTML lernen",
-            "CSS lernen"
-          ],
-          completed: [
-            "",
-            ""
-          ],
-          reflection: "Testtext",
-          notes: "",
-          feedback: [
-            { author: "Michael Kellenberger", text: "Hey! Super Sache! Gute Note kommt." }
-          ]
-        }
-        
-      ],*/
+      journals: [],
+      states: {
+        loadingCreate: false
+      }
     }
   },
   created() {
     const user = firebase.auth().currentUser;
-
     firebase.firestore().collection('journals').where('author', '==', user.uid).get().then((snapshot) => {
       snapshot.docs.forEach(doc => {
-        this.journals.push({id: doc.id, date: doc.data().date})
+        this.journals.push({ id: doc.id, date: doc.data().date })
       })
-    });
+    })
   },
   methods: {
+    createJournal() {
+      const user = firebase.auth().currentUser
+      this.states.loadingCreate = true
+      firebase.firestore().collection('journals').add({
+        author: user.uid,
+        date: firebase.firestore.FieldValue.serverTimestamp(),
+        tasks: [],
+        completed: [],
+        reflection: "",
+        notes: ""
+      }).then(docRef => {
+        this.$router.push(`/details/${docRef.id}`)
+      }).catch(error => {
+        this.states.loadingCreate = false
+      })
+    },
     translateDate(timestamp) {
       var date = new Date(timestamp.seconds*1000)
       var days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
@@ -100,8 +81,5 @@ export default {
 <style scoped>
 .entry {
   background: #fff;
-}
-.v-card {
-  margin-right: 0px;
 }
 </style>

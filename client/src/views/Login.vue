@@ -32,7 +32,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" submit v-on:click="login()" :loading="loggingIn">Login</v-btn>
+            <v-btn color="primary" type="submit" tabindex="0" :loading="loggingIn" @click="login()">Login</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -55,9 +55,7 @@ export default {
   },
   methods: {
     login() {
-
       if(!this.inputUsername || !this.inputPassword) return;
-
 
       this.loggingIn = true;
       const promise = firebase.auth().signInWithEmailAndPassword(this.inputUsername, this.inputPassword)
