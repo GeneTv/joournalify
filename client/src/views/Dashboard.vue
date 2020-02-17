@@ -73,6 +73,9 @@ export default {
       ],
     }
   },
+  created() {
+    //TODO Fetch all entries
+  },
   methods: {
     translateDate(timestamp) {
       var date = new Date(timestamp)

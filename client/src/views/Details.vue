@@ -12,13 +12,14 @@
 export default {
   data() {
     return {
-      entry: {
-        
-      }
+      details: {},
+      detailsTemp: {},
+      isAuthor: false
     }
   },
   created() {
-    /* TODO: Load data from 'this.$route.params.id' */
+    var id = this.$route.params.id
+    console.log(`Fetching details for ${id}`)
   },
   methods: {
     translateDate(timestamp) {
