@@ -65,16 +65,22 @@
         </v-card>
       </v-dialog>
 
+      <v-card class="mx-auto" tile>
+        <hr class="amber" color="amber">
+        <v-list>
+          <v-subheader class="font-weight-bold">Feedback</v-subheader>
+          <v-list-item-group v-model="feedback" color="primary">
+            <v-list-item v-for="feedback in details.feedback" :key="feedback.id">
+              <v-list-item-content>
+                <v-list-item-title>{{ feedback.author }}</v-list-item-title>
+                <v-list-item-subtitle>{{ feedback.text }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
+      
     </v-container>
-    <br><hr color="grey">
-
-    <div v-for="feedback in details.feedback" :key="feedback.id">
-      <h3>{{ feedback.author }}</h3>
-      <span>{{ feedback.text }}</span>
-    </div>
-
-
-
   </v-content>
 </template>
 

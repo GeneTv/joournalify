@@ -1,0 +1,15 @@
+{
+  "name": "Joournalify",
+  "short_name": "Joournalify",
+  "icons": [
+    {
+      "src": "/app.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F5F5",
+  "theme_color": "#b3d4fc"
+}
