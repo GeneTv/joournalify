@@ -38,11 +38,11 @@
 
       <v-row>
         <v-col cols="12" md="12">
-          <h3 class="mb-3">Reflection</h3>
+          <h3 class="mb-2">Reflection</h3>
           <v-textarea solo label="Reflection" :disabled="!editMode" v-model="details.reflection"></v-textarea>
         </v-col>
         <v-col cols="12" md="12">
-          <h3 class="mb-3">Notes</h3>
+          <h3 class="mb-2">Notes</h3>
           <v-textarea solo label="Notes" :disabled="!editMode" v-model="details.notes"></v-textarea>
         </v-col>
       </v-row>
@@ -65,8 +65,8 @@
         </v-card>
       </v-dialog>
 
-
     </v-container>
+    <br><hr color="grey">
 
     <div v-for="feedback in details.feedback" :key="feedback.id">
       <h3>{{ feedback.author }}</h3>
