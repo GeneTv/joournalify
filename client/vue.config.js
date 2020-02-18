@@ -3,7 +3,7 @@ module.exports = {
     "vuetify"
   ],
   pwa: {
-    name: 'Joournalify',
+    name: 'Joournalify Beta',
     themeColor: '#1976d2',
     msTitleColor: '#1976d2',
     appleMobileWebAppCapable: true,

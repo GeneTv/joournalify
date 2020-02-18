@@ -47,8 +47,23 @@
         </v-col>
       </v-row>
 
-      <!-- DELETE CONFIRMATION -->
-      <v-dialog v-model="states.dialogDelete" max-width="600" v-if="isAuthor">
+      <v-card class="mx-auto mb-5" tile>
+        <hr class="amber" color="amber">
+        <v-list>
+          <v-subheader class="font-weight-bold">Feedback</v-subheader>
+          <v-list-item-group v-model="feedback" color="primary">
+            <v-list-item v-for="feedback in details.feedback" :key="feedback.id">
+              <v-list-item-content>
+                <v-list-item-title>{{ feedback.author }}</v-list-item-title>
+                <v-list-item-subtitle>{{ feedback.text }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
+
+      <!-- DELETE BUTTON -->
+      <v-dialog v-model="states.dialogDelete" max-width="600">
         <template v-slot:activator="{ on }">
           <v-btn text color="red darken-1" class="float-right" tabindex="-1" v-on="on"><v-icon left>delete</v-icon> Delete</v-btn>
         </template>
@@ -64,21 +79,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
-      <v-card class="mx-auto" tile>
-        <hr class="amber" color="amber">
-        <v-list>
-          <v-subheader class="font-weight-bold">Feedback</v-subheader>
-          <v-list-item-group v-model="feedback" color="primary">
-            <v-list-item v-for="feedback in details.feedback" :key="feedback.id">
-              <v-list-item-content>
-                <v-list-item-title>{{ feedback.author }}</v-list-item-title>
-                <v-list-item-subtitle>{{ feedback.text }}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-card>
       
     </v-container>
   </v-content>
