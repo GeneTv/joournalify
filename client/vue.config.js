@@ -4,8 +4,8 @@ module.exports = {
   ],
   pwa: {
     name: 'Joournalify',
-    themeColor: '#1976d2',
-    msTileColor: '#1976d2',
+    themeColor: '#1976D2',
+    msTileColor: '#1976D2',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: '#1976D2'
   }
