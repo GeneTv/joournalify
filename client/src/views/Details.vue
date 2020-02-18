@@ -4,16 +4,20 @@
     <v-container class="my-5">
 
       <v-layout row class="mb-3">
+        <v-btn icon class="gray black--text" @click="$router.push('/')">
+          <v-icon>arrow_back_ios</v-icon>
+        </v-btn>
+
         <!-- EDIT MODE BUTTON -->
-        <v-btn class="indigo white--text" v-if="isAuthor" :loading="states.loadingSave" @click="toggleEditMode()">
-          <v-icon left>{{ editMode ? (hasChanges() ? 'save': 'edit') : 'edit' }}</v-icon>
-          <span class="caption">{{ editMode ? (hasChanges() ? 'Save': 'Exit editor') : 'Edit' }}</span>
+        <v-btn class="indigo white--text ml-3" v-if="isAuthor" :loading="states.loadingSave" @click="toggleEditMode()">
+          <v-icon left>{{ editMode ? (hasChanges() ? 'save': 'visibility') : 'edit' }}</v-icon>
+          <span class="caption">{{ editMode ? (hasChanges() ? 'Save': 'View') : 'Edit' }}</span>
         </v-btn>
 
         <!-- GIVE FEEDBACK DIALOG -->
         <v-dialog v-model="states.dialogFeedback" max-width="600" v-if="!details.fetching && !isAuthor">
           <template v-slot:activator="{ on }">
-            <v-btn color="amber" v-on="on"><v-icon left>feedback</v-icon> Give feedback</v-btn>
+            <v-btn color="amber" class="ml-3" v-on="on"><v-icon left>feedback</v-icon> Give feedback</v-btn>
           </template>
           
           <v-card>
