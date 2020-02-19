@@ -185,6 +185,9 @@ export default {
     hasChanges() {
       return this.details.reflection != this.detailsOrigin.reflection ||
         this.details.notes != this.detailsOrigin.notes
+    },
+    shareJournal() {
+
     }
   }
 }
