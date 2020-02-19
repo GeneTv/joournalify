@@ -94,6 +94,11 @@ export default {
     },
     openJournal() {
       if(this.openJournalID == "") return
+      if(this.openJournalID.startsWith(`${window.location}details/`)) {
+        this.openJournalID = this.openJournalID.replace(`${window.location}details/`, '')
+      }
+
+
       this.$router.push(`/details/${this.openJournalID}`)
       this.openJournalID = ""
     },

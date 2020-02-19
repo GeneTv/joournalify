@@ -73,9 +73,9 @@
           </v-list-item-group>
         </v-list>
       </v-card>
-      
+
       <!-- DELETE BUTTON -->
-      <v-dialog v-model="states.dialogDelete" max-width="600">
+      <v-dialog v-model="states.dialogDelete" max-width="600" v-if="isAuthor">
         <template v-slot:activator="{ on }">
           <v-btn text color="red darken-1" class="float-right" tabindex="-1" v-on="on"><v-icon left>delete</v-icon> Delete</v-btn>
         </template>
@@ -204,7 +204,12 @@ export default {
         this.details.completed != this.detailsOrigin.completed
     },
     shareJournal() {
-
+      const el = document.createElement('textarea');
+      el.value = window.location.href;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
     }
   }
 }
