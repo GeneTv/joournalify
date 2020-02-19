@@ -5,6 +5,7 @@ import Dashboard from '@/views/Dashboard.vue'
 import Details from '@/views/Details.vue'
 import Error404 from '@/views/Error404.vue'
 import Login from '@/views/Login.vue'
+import Profile from '@/views/Profile.vue'
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -19,6 +20,11 @@ const routes = [
     path: '/',
     name: 'dashboard',
     component: Dashboard,
+    meta: { accessRestricted: true }
+  },{
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
     meta: { accessRestricted: true }
   },{
     path: '/details/:id',

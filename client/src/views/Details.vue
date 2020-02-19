@@ -9,7 +9,7 @@
         </v-btn>
 
         <!-- EDIT MODE BUTTON -->
-        <v-btn class="indigo white--text ml-3" v-if="isAuthor" :loading="states.loadingSave" @click="toggleEditMode()">
+        <v-btn color="indigo white--text ml-3" v-if="isAuthor" :loading="states.loadingSave" @click="toggleEditMode()">
           <v-icon left>{{ editMode ? (hasChanges() ? 'save': 'visibility') : 'edit' }}</v-icon>
           <span class="caption">{{ editMode ? (hasChanges() ? 'Save': 'View') : 'Edit' }}</span>
         </v-btn>
@@ -19,13 +19,11 @@
           <template v-slot:activator="{ on }">
             <v-btn color="amber" class="ml-3" v-on="on"><v-icon left>feedback</v-icon> Give feedback</v-btn>
           </template>
-          
           <v-card>
             <v-card-title class="headline amber darken-1 white--text" primary-title>Write feedback</v-card-title>
             <v-container>
               <v-textarea solo label="Write feedback..." v-model="feedbackCache"></v-textarea>
             </v-container>
-            
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="grey" text tabindex="0" @click="states.dialogFeedback = false">Cancel</v-btn>
@@ -34,16 +32,30 @@
           </v-card>
         </v-dialog>
 
+        <!-- SHARE BUTTON -->
+        <v-btn text color="gray" class="ml-3" @click="shareJournal()">
+          <v-icon left>share</v-icon>
+          <span class="caption">Share</span>
+        </v-btn>
+
       </v-layout>
 
       <v-row>
         <v-col cols="12" md="12">
+          <h3 class="mb-2">To do</h3>
+          <v-textarea solo label="..." :disabled="!editMode" v-model="details.tasks"></v-textarea>
+        </v-col>
+        <v-col cols="12" md="12">
+          <h3 class="mb-2">Completed</h3>
+          <v-textarea solo label="..." :disabled="!editMode" v-model="details.completed"></v-textarea>
+        </v-col>
+        <v-col cols="12" md="12">
           <h3 class="mb-2">Reflection</h3>
-          <v-textarea solo label="Reflection" :disabled="!editMode" v-model="details.reflection"></v-textarea>
+          <v-textarea solo label="..." :disabled="!editMode" v-model="details.reflection"></v-textarea>
         </v-col>
         <v-col cols="12" md="12">
           <h3 class="mb-2">Notes</h3>
-          <v-textarea solo label="Notes" :disabled="!editMode" v-model="details.notes"></v-textarea>
+          <v-textarea solo label="..." :disabled="!editMode" v-model="details.notes"></v-textarea>
         </v-col>
       </v-row>
 
@@ -51,17 +63,17 @@
         <hr class="amber" color="amber">
         <v-list>
           <v-subheader class="font-weight-bold">Feedback</v-subheader>
-          <v-list-item-group v-model="feedback" color="primary">
+          <v-list-item-group color="primary">
             <v-list-item v-for="feedback in details.feedback" :key="feedback.id">
               <v-list-item-content>
-                <v-list-item-title>{{ feedback.author }}</v-list-item-title>
+                <v-list-item-title>{{ feedback.authorName }}</v-list-item-title>
                 <v-list-item-subtitle>{{ feedback.text }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-card>
-
+      
       <!-- DELETE BUTTON -->
       <v-dialog v-model="states.dialogDelete" max-width="600">
         <template v-slot:activator="{ on }">
@@ -134,6 +146,7 @@ export default {
 
       const feedback = {
         author: user.uid,
+        authorName: user.displayName == null ? user.email : user.displayName,
         journal: this.details.id,
         text: this.feedbackCache
       }
@@ -168,7 +181,9 @@ export default {
 
           firebase.firestore().collection('journals').doc(this.details.id).update({
             reflection: this.details.reflection,
-            notes: this.details.notes
+            notes: this.details.notes,
+            tasks: this.details.tasks,
+            completed: this.details.completed
           }).then(() => {
             this.states.loadingSave = false
             this.editMode = !this.editMode
@@ -184,7 +199,9 @@ export default {
     },
     hasChanges() {
       return this.details.reflection != this.detailsOrigin.reflection ||
-        this.details.notes != this.detailsOrigin.notes
+        this.details.notes != this.detailsOrigin.notes ||
+        this.details.tasks != this.detailsOrigin.tasks ||
+        this.details.completed != this.detailsOrigin.completed
     },
     shareJournal() {
 

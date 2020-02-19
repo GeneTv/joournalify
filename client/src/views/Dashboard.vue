@@ -34,7 +34,7 @@
           </v-card>
         </v-dialog>
       </v-layout>
-      
+
 
       <h1 class="mt-12 text-center grey--text" v-if="journals.length == 0">No entries found</h1>
       <v-card text elevation-2 class="mb-5 px-3" v-for="journal in journals" :key="journal.id" router :to="`/details/${journal.id}`">
@@ -82,8 +82,8 @@ export default {
       firebase.firestore().collection('journals').add({
         author: user.uid,
         date: firebase.firestore.FieldValue.serverTimestamp(),
-        tasks: [],
-        completed: [],
+        tasks: "",
+        completed: "",
         reflection: "",
         notes: ""
       }).then(docRef => {
