@@ -6,10 +6,34 @@
     <v-container class="my-5">
 
       <v-layout row class="mb-3">
-        <v-btn text color="success text--grey" :loading="states.loadingCreate" v-on:click="createJournal()">
+        <v-btn text color="success text--grey" :loading="states.loadingCreate" @click="createJournal()">
           <v-icon left>add_to_photos</v-icon>
           <span class="caption">Add</span>
         </v-btn>
+
+        <v-dialog v-model="states.dialogOpen" max-width="600">
+          <template v-slot:activator="{ on }">
+            <v-btn text color="grey darken-1" class="float-right" tabindex="-1" v-on="on"><v-icon left>search</v-icon> Open</v-btn>
+          </template>
+          
+          <v-card>
+            <v-card-title class="headline indigo darken-1 white--text" primary-title>Open journal</v-card-title>
+            <v-card-text class="mt-4 body-1 black--text">Enter the journal ID to open it</v-card-text>
+            <v-form>
+              <v-text-field label="ID" prepend-icon="unarchive" class="pa-5"
+                type="text"
+                required
+                :rules="[openJournalID => !!openJournalID || 'ID is required']"
+                v-model="openJournalID">
+              </v-text-field>
+            </v-form>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="grey" text tabindex="0" @click="states.dialogOpen = false">Cancel</v-btn>
+              <v-btn color="indigo darken-2 white--text" tabindex="-1" @click="openJournal()">Open</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-layout>
 
       <h1 class="mt-12 text-center grey--text" v-if="journals.length == 0">No entries found</h1>
@@ -24,7 +48,6 @@
 
 
     </v-container>
-
   </v-content>
 </template>
 
@@ -39,8 +62,10 @@ export default {
     return {
       journals: [],
       states: {
-        loadingCreate: false
-      }
+        loadingCreate: false,
+        dialogOpen: false
+      },
+      openJournalID: ""
     }
   },
   created() {
@@ -67,6 +92,11 @@ export default {
       }).catch(error => {
         this.states.loadingCreate = false
       })
+    },
+    openJournal() {
+      if(this.openJournalID == "") return
+      this.$router.push(`/details/${this.openJournalID}`)
+      this.openJournalID = ""
     },
     translateDate(timestamp) {
       var date = new Date(timestamp.seconds*1000)
