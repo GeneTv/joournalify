@@ -17,7 +17,7 @@
           </template>
           <v-card>
             <v-card-title class="headline indigo darken-1 white--text" primary-title>Open journal</v-card-title>
-            <v-card-text class="mt-4 body-1 black--text">Open a journal by entering the journal id.</v-card-text>
+            <v-card-text class="mt-4 body-1 black--text">Open a journal by entering the journal url or the id.</v-card-text>
             <v-form>
               <v-text-field label="ID" prepend-icon="unarchive" class="pa-5"
                 type="text"
