@@ -6,6 +6,8 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write, delete, create: if false;
     }
+
+    //Handle journals
     
     // [AUTH] Allow read and create
 		match /journals/{journal} {
@@ -20,6 +22,16 @@ service cloud.firestore {
     // [AUTH] Allow write own journal
     match /journals/{journal} {
     	allow write: if isAuthorized();
+    }
+
+
+
+    //Handle feedback
+
+    match /feedback/{feedback} { //Allow read: feedback on own journals & own feedback on any journals 
+      allow read: if isLoggedIn() &&
+        exists(/journals/$(feedback).data.journal) &&
+        (/journals/$(feedback).data.journal).data.author == request; // @TODO:!!!!!
     }
     
   }
