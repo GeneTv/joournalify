@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Navbar v-if="loggedIn"/>
-    <router-view/>
+    <router-view :key="$route.fullPath"/>
   </v-app>
 </template>
 

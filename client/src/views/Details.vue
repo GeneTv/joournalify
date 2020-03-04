@@ -1,6 +1,29 @@
 <template>
   <v-content class="mx-4 mb-4">
-    <h1 class="headline grey--text mt-5">Details{{ details.date != null ? ` - ${translateDate(details.date)}` : '' }}</h1>
+    <h1 class="headline grey--text mt-5"><v-app-bar-nav-icon @click.stop="drawer = !drawer" /> Details{{ details.date != null ? ` - ${translateDate(details.date)}` : '' }}</h1>
+
+
+    <v-navigation-drawer app v-model="drawer" class="success">
+      <v-list>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="title white--text">User's journals</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item v-for="journal in journals" :key="journal.id" router :to="`/details/${journal.id}`">
+          <v-list-item-icon>
+            <v-icon class="white--text">calendar_today</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">{{ translateDate(journal.date) }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+
+
     <v-container class="my-5">
 
       <v-layout row class="mb-3">
@@ -113,10 +136,13 @@ export default {
         loadingFeedback: false,
         dialogDelete: false,
         loadingSave: false
-      }
+      },
+
+      drawer: false,
+      journals: []
     }
   },
-  created() {
+  mounted() {
     const id = this.$route.params.id
     const user = firebase.auth().currentUser;
 
@@ -125,6 +151,12 @@ export default {
       if(doc.exists) {
         this.details = { id: doc.id, ...doc.data(), feedback: [] }
         this.isAuthor = this.details.author == user.uid;
+
+        firebase.firestore().collection('journals').where('author', '==', this.details.author).get().then((allSnapshot) => {
+          allSnapshot.docs.forEach(allDoc => {
+            this.journals.push({ id: allDoc.id, date: allDoc.data().date })
+          })
+        })
 
         /* Load feedback (only fetch own feedback if not author) */
         var fbCollection = firebase.firestore().collection('feedback').where('journal', '==', this.details.id)
@@ -138,6 +170,9 @@ export default {
       } else { this.$router.push('/') }
     }).catch((error) => { this.$router.push('/');   console.log(error) /* Debug: Only for development. Remove in production */ });
 
+  },
+  updated() {
+    
   },
   methods: {
     createFeedback() {
