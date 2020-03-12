@@ -5,6 +5,7 @@ import Dashboard from '@/views/Dashboard.vue'
 import Details from '@/views/Details.vue'
 import Error404 from '@/views/Error404.vue'
 import Login from '@/views/Login.vue'
+import PasswordReset from '@/views/PasswordReset.vue'
 import Profile from '@/views/Profile.vue'
 
 import * as firebase from 'firebase/app';
@@ -13,6 +14,10 @@ import 'firebase/auth';
 Vue.use(VueRouter)
 const routes = [
   {
+    path: '/passwordreset/:resetToken',
+    name: 'passwordreset',
+    component: PasswordReset
+  },{
     path: '/login',
     name: 'login',
     component: Login
