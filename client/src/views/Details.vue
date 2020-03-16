@@ -11,7 +11,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item v-for="journal in journals" :key="journal.id" router :to="`/details/${journal.id}`">
+        <v-list-item v-for="journal in sortedJournals" :key="journal.id" router :to="`/details/${journal.id}`">
           <v-list-item-icon>
             <v-icon class="white--text">calendar_today</v-icon>
           </v-list-item-icon>
@@ -90,7 +90,7 @@
             <v-list-item v-for="feedback in details.feedback" :key="feedback.id">
               <v-list-item-content>
                 <v-list-item-title>{{ feedback.authorName }}</v-list-item-title>
-                <v-list-item-subtitle>{{ feedback.text }}</v-list-item-subtitle>
+                <p color="grey" class="">{{ feedback.text }}</p>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -168,7 +168,7 @@ export default {
         });
 
       } else { this.$router.push('/') }
-    }).catch((error) => { this.$router.push('/');   console.log(error) /* Debug: Only for development. Remove in production */ });
+    }).catch((error) => { this.$router.push('/'); });
 
   },
   updated() {
@@ -245,6 +245,13 @@ export default {
       el.select();
       document.execCommand('copy');
       document.body.removeChild(el);
+    }
+  },
+  computed: {
+    sortedJournals () {
+      return this.journals.sort((a, b) => {
+        a.date.seconds < b.date.seconds
+      })
     }
   }
 }
