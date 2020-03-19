@@ -171,9 +171,6 @@ export default {
     }).catch((error) => { this.$router.push('/'); });
 
   },
-  updated() {
-    
-  },
   methods: {
     createFeedback() {
       const user = firebase.auth().currentUser;
@@ -248,11 +245,36 @@ export default {
     }
   },
   computed: {
-    sortedJournals () {
+    sortedJournals() {
       return this.journals.sort((a, b) => {
-        a.date.seconds < b.date.seconds
+        return b.date.seconds - a.date.seconds
       })
     }
+  },
+  beforeRouteLeave (to, from, next) {
+    if(this.editMode && this.hasChanges()) {
+      const answer = window.confirm('You have unsaved changes. Are you sure you want to leave?')
+      if (answer) {
+        next()
+      } else {
+        next(false)
+      }
+    } else {
+      next()
+    }
+  },
+  beforeRouteUpdate (to, from, next) {
+    if(this.editMode && this.hasChanges()) {
+      const answer = window.confirm('You have unsaved changes. Are you sure you want to leave?')
+      if (answer) {
+        next()
+      } else {
+        next(false)
+      }
+    } else {
+      next()
+    }
   }
+
 }
 </script>

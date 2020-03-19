@@ -37,7 +37,7 @@
 
 
       <h1 class="mt-12 text-center grey--text" v-if="journals.length == 0">No entries found</h1>
-      <v-card text elevation-2 class="mb-5 px-3" v-for="journal in journals" :key="journal.id" router :to="`/details/${journal.id}`">
+      <v-card text elevation-2 class="mb-5 px-3" v-for="journal in sortedJournals" :key="journal.id" router :to="`/details/${journal.id}`">
         <v-layout row wrap class="pa-3 entry">
           <v-flex xs12 md6>
             <div class="caption grey--text">Date</div>
@@ -107,6 +107,13 @@ export default {
       var days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
       var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       return `${days[date.getDay()]}, ${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`
+    }
+  },
+  computed: {
+    sortedJournals() {
+      return this.journals.sort((a, b) => {
+        return b.date.seconds - a.date.seconds
+      })
     }
   }
 }
