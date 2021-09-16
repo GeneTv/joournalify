@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-
+import { getFirestore } from "firebase/firestore";
 
 initializeApp({
   apiKey: "AIzaSyDNqRcq9ONg96KMI-EQvqniyeFP_-f_EFg",
@@ -20,11 +20,12 @@ initializeApp({
 
 
 const auth = getAuth();
+const database = getFirestore();
 const store = new Vuex.Store({
   state: {
     isReady: false,
-    journals: [],
-    user: null
+    user: null,
+    journals: []
   },
   mutations: {
     SET_READY(state, readyState) {

@@ -67,6 +67,7 @@ export default {
         this.$router.push('/');
       } catch(e) {
         console.debug(e);
+        // TODO: Check what caused the error, -> show invalid credentials message if necessary
       }
       this.isProcessing = false;
     }
