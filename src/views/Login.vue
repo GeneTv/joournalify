@@ -32,7 +32,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" type="submit" tabindex="0" :loading="loggingIn" @click="login()">Login</v-btn>
+            <v-btn color="primary" type="submit" tabindex="0" :loading="isProcessing" @click="login()">Login</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -68,7 +68,6 @@ export default {
       } catch(e) {
         console.debug(e);
       }
-
       this.isProcessing = false;
     }
   }

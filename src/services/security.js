@@ -1,9 +1,8 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import store from "@/store";
 
-module.exports = (to, from, next) => {
+const handleAuth = (to, from, next) => {
   const accessRestricted = to.matched.some(record => record.meta.accessRestricted);
-  const isAuthenticated = firebase.auth().currentUser;
+  const { isAuthenticated } = store.getters;
 
   if(accessRestricted && !isAuthenticated) {
     next('/login');
@@ -12,4 +11,23 @@ module.exports = (to, from, next) => {
   } else {
     next();
   }
+}
+
+
+export default (to, from, next) => {
+
+  if (!store.state.isReady) {
+    console.debug('[router]   waiting for store to be initialized...')
+    store.watch(
+      (state) => state.isReady,
+      (value) => {
+        console.debug('[router]    ok store initialization state changed', value)
+        if (value == true)
+          handleAuth(to, from, next);
+      }
+    )
+  } else {
+    handleAuth(to, from, next);
+  }
+
 }

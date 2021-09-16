@@ -1,11 +1,13 @@
+/* eslint-disable */
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex);
 
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
-firebase.initializeApp({
+
+initializeApp({
   apiKey: "AIzaSyDNqRcq9ONg96KMI-EQvqniyeFP_-f_EFg",
   authDomain: "joournalify.firebaseapp.com",
   databaseURL: "https://joournalify.firebaseio.com",
@@ -16,12 +18,18 @@ firebase.initializeApp({
   measurementId: "G-70DPWCE8V3"
 });
 
-export default new Vuex.Store({
+
+const auth = getAuth();
+const store = new Vuex.Store({
   state: {
+    isReady: false,
     journals: [],
     user: null
   },
   mutations: {
+    SET_AUTH_READY(state, readyState) {
+      state.authReady = readyState;
+    },
     SET_USER(state, user) {
       state.user = user;
     },
@@ -36,7 +44,7 @@ export default new Vuex.Store({
     signin(context, { email, password }) {
       return new Promise(async (resolve, reject) => {
         try {
-          const user = await firebase.auth().signInWithEmailAndPassword(email, password);
+          const user = await signInWithEmailAndPassword(auth, email, password);
           context.commit('SET_USER', user);
           resolve(user);
         } catch(error) {
@@ -44,16 +52,22 @@ export default new Vuex.Store({
         }
       });
     },
-    signout(context) {
-      firebase.auth().signOut();
+    signout() {
+      signOut(auth);
     }
   },
   getters: {
-    isLoggedIn(state) {
+    isAuthenticated(state) {
       return state.user != null;
     },
     journalById(state, journalId) {
       return state.journals.find(journal => journal.id === journalId);
     }
   }
+});
+
+onAuthStateChanged(auth, user => {
+  store.commit('SET_USER', user);
 })
+
+export default store;
