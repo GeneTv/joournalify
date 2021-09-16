@@ -6,7 +6,7 @@ const handleAuth = (to, from, next) => {
 
   if(accessRestricted && !isAuthenticated) {
     next('/login');
-  } else if(to.name == 'login' && isAuthenticated) {
+  } else if(to.name == 'Login' && isAuthenticated) {
     next('/');
   } else {
     next();
@@ -16,18 +16,18 @@ const handleAuth = (to, from, next) => {
 
 export default (to, from, next) => {
 
-  if (!store.state.isReady) {
-    console.debug('[router]   waiting for store to be initialized...')
+  if (store.state.isReady) {
+    handleAuth(to, from, next);
+  } else {
+    console.debug('[router]   waiting for the app to be initialized...')
     store.watch(
       (state) => state.isReady,
       (value) => {
-        console.debug('[router]    ok store initialization state changed', value)
         if (value == true)
           handleAuth(to, from, next);
+        console.debug('[router]   ok. app ready state changed', value)
       }
     )
-  } else {
-    handleAuth(to, from, next);
   }
 
 }

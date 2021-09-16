@@ -27,8 +27,8 @@ const store = new Vuex.Store({
     user: null
   },
   mutations: {
-    SET_AUTH_READY(state, readyState) {
-      state.authReady = readyState;
+    SET_READY(state, readyState) {
+      state.isReady = readyState;
     },
     SET_USER(state, user) {
       state.user = user;
@@ -67,7 +67,9 @@ const store = new Vuex.Store({
 });
 
 onAuthStateChanged(auth, user => {
+  console.debug('[store]    auth state changed', user);
   store.commit('SET_USER', user);
+  if(!store.state.isReady) store.commit('SET_READY', true);
 })
 
 export default store;
