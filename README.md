@@ -1,4 +1,8 @@
-# joournalify
+<p align="center">
+  <!-- <img src="images/logo.png" alt="Logo" width="80" height="80"> -->
+  <h3 align="center">Joournalify</h3>
+  <p align="center">An application to create journals and keep track of your work.</p>
+</p>
 
 ## Project setup
 ```
@@ -20,5 +24,7 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Deploy and push to production
+```
+firebase deploy
+```
