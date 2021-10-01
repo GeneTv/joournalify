@@ -28,4 +28,4 @@ npm run lint
 ```
 firebase deploy
 ```
-⚠️ *Don't use for production! Security aspctes not implemented.* ⚠️
+⚠️ *Don't use for production! Security aspctes not implemented yet.* ⚠️
