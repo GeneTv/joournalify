@@ -28,3 +28,4 @@ npm run lint
 ```
 firebase deploy
 ```
+<p style="color: red;">Don't use for production! Security aspctes not implemented.</p>
